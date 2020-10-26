@@ -569,11 +569,14 @@ class IPDatabase(object):
                     errors.append("%s - Could not clone" % (ip['name']));
                     continue
                 os.chdir("./%s" % ip['path'])
-                ret = execute("%s checkout %s" % (git, ip['commit']))
-                if ret != 0:
-                    print(tcolors.ERROR + "ERROR: could not checkout ip '%s' at %s." % (ip['name'], ip['commit']) + tcolors.ENDC)
-                    errors.append("%s - Could not checkout commit %s" % (ip['name'], ip['commit']));
-                    continue
+                if ip['commit'] != None:
+                    ret = execute("%s checkout %s" % (git, ip['commit']))
+                    if ret != 0:
+                        print(tcolors.ERROR + "ERROR: could not checkout ip '%s' at %s." % (ip['name'], ip['commit']) + tcolors.ENDC)
+                        errors.append("%s - Could not checkout commit %s" % (ip['name'], ip['commit']));
+                        continue
+                else:
+                    print("Ignore commit == None", flush=True)
         os.chdir(cwd)
         print('\n\n')
         print(tcolors.WARNING + "SUMMARY" + tcolors.ENDC)
