@@ -550,7 +550,7 @@ class IPDatabase(object):
             else:
                 os.chdir("./")
 
-                print(tcolors.OK + "\nCloning ip '%s'..." % ip['name'] + tcolors.ENDC)
+                print(tcolors.OK + "\nCloning ip '%s'..." % ip['name'] + tcolors.ENDC, flush=True)
 
 
                 # compose remote name
@@ -560,7 +560,9 @@ class IPDatabase(object):
                     ip['remote'] = "%s/%s" % (server, group)
                 else:
                     ip['remote'] = "%s:%s" % (server, group)
-
+                    
+                print("%s clone %s/%s.git %s" % (git, ip['remote'], ip['name'], ip['path']), flush=True)
+                
                 ret = execute("%s clone %s/%s.git %s" % (git, ip['remote'], ip['name'], ip['path']))
                 if ret != 0:
                     print(tcolors.ERROR + "ERROR: could not clone, you probably have to remove the '%s' directory." % ip['name'] + tcolors.ENDC)
