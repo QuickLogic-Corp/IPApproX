@@ -99,7 +99,7 @@ class IPDatabase(object):
         build_deps_tree=False,
         resolve_deps_conflicts=False,
         default_server="git@github.com",
-        default_group='pulp-platform',
+        default_group='QuickLogic-Corp',
         default_commit='master',
         default_site_dependent_path='./fe/local_ips',
         load_cache=False,

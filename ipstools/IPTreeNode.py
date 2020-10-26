@@ -45,7 +45,7 @@ class IPTreeNode(object):
     def __init__(self,
         node,
         default_server='https://github.com',
-        default_group='pulp-platform',
+        default_group='QuickLogic-Corp',
         default_commit='master',
         children=None,
         father=None,
