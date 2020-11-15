@@ -11,7 +11,7 @@
 #
 
 from __future__ import print_function
-import re, os, subprocess, sys, os, stat
+import re, os, subprocess, sys, os, stat, shlex
 try:
     from StringIO import StringIO
 except ImportError:
@@ -145,10 +145,12 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
         if rawcontent_failed or "https:" not in server:
             if verbose:
                 print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
-            cmd = """curl -H "authorization: token 197ee042332186a8eb93fba3578f9658a3eaab89" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
+            cmd = """ curl -H "authorization: token 2f160dc5808ca89616202f9c8e818d839e2f85ad" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
             print(cmd)
+            args = shlex.split(cmd)
+            print(args)
             try:
-                curl = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=devnull)
+                curl = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=devnull)
                 cmd = "cat"
                 ips_list_yml = subprocess.check_output(cmd.split(), stdin=curl.stdout, stderr=devnull)
                 out = curl.communicate()[0]
