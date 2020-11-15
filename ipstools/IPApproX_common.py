@@ -145,14 +145,19 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
         if rawcontent_failed or "https:" not in server:
             if verbose:
                 print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
-            cmd = """curl -H "authorization: token 4bd6ed5065952036fa4d27b36845e49285be0340" -H "Accept: application/vnd.github.v4.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
+            cmd = """curl -H "authorization: token 197ee042332186a8eb93fba3578f9658a3eaab89" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
+            print(cmd)
             try:
                 curl = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=devnull)
                 cmd = "cat"
                 ips_list_yml = subprocess.check_output(cmd.split(), stdin=curl.stdout, stderr=devnull)
                 out = curl.communicate()[0]
+                print("ips_list_yml: ")
+                print(ips_list_yml)
             except subprocess.CalledProcessError:
                 ips_list_yml = None
+            print("ips_list_yml: ")
+            print(ips_list_yml)
             if ips_list_yml is not None:
                 ips_list_yml = ips_list_yml.decode(sys.stdout.encoding)
     return ips_list_yml
