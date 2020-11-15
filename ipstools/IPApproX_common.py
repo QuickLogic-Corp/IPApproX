@@ -145,7 +145,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
         if rawcontent_failed or "https:" not in server:
             if verbose:
                 print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
-            cmd = """ curl -H "authorization: token 2f160dc5808ca89616202f9c8e818d839e2f85ad" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
+            cmd = """ curl -H "authorization: token 577eccfce44703ef540c0688bc913400806eaa13" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
             print(cmd)
             args = shlex.split(cmd)
             print(args)
