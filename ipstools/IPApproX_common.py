@@ -148,7 +148,10 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             subprocess.run(["rm", "-rf", "tmp"])    # Remove any existing tmp directory
             cmd = "git clone -b %s %s:%s/%s tmp" % (commit, server, group, name)
             try:
-                subprocess.run(shlex.split(cmd))
+                result = subprocess.run(shlex.split(cmd), capture_output=True)
+                output = result.stdout.decode('ascii')
+                if "fatal" in output:
+                    print("fatal issue in: " + cmd)
             except:
                 print("cmd: " + cmd + " failed")
                 sys.exit(1)
