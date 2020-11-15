@@ -126,7 +126,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
     with open(os.devnull, "w") as devnull:
         rawcontent_failed = False
         ips_list_yml = "   "
-        if "github.com" in server:
+        if "https:" in server:
             if "tags/" in commit:
                 commit = commit[5:]
             if verbose:
@@ -142,15 +142,15 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             ips_list_yml = ips_list_yml.decode(sys.stdout.encoding)
         if ips_list_yml[:3] == "404":
             ips_list_yml = ""
-        if rawcontent_failed or "github.com" not in server:
+        if rawcontent_failed or "https:" not in server:
             if verbose:
                 print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
-            cmd = "git archive --remote=%s:%s/%s %s ips_list.yml" % (server, group, name, commit)
-            git_archive = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=devnull)
-            cmd = "tar -xO"
+            cmd = """curl -H "authorization: token 4bd6ed5065952036fa4d27b36845e49285be0340" -H "Accept: application/vnd.github.v4.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
             try:
-                ips_list_yml = subprocess.check_output(cmd.split(), stdin=git_archive.stdout, stderr=devnull)
-                out = git_archive.communicate()[0]
+                curl = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=devnull)
+                cmd = "cat"
+                ips_list_yml = subprocess.check_output(cmd.split(), stdin=curl.stdout, stderr=devnull)
+                out = curl.communicate()[0]
             except subprocess.CalledProcessError:
                 ips_list_yml = None
             if ips_list_yml is not None:
