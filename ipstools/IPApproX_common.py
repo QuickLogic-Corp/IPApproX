@@ -130,7 +130,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             if "tags/" in commit:
                 commit = commit[5:]
             if verbose:
-                print("   Fetching ips_list.yml from https://raw.githubusercontent.com/%s/%s/%s/ips_list.yml" % (group, name, commit))
+                print("   Fetching(1) ips_list.yml from https://raw.githubusercontent.com/%s/%s/%s/ips_list.yml" % (group, name, commit))
             cmd = "curl https://raw.githubusercontent.com/%s/%s/%s/ips_list.yml" % (group, name, commit)
             try:
                 curl = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=devnull)
@@ -144,14 +144,15 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             ips_list_yml = ""
         if rawcontent_failed or "https:" not in server:
             if verbose:
-                print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
+                print("   Fetching(2) ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
             subprocess.run(["rm", "-rf", "tmp"])    # Remove any existing tmp directory
             cmd = "git clone -b %s %s:%s/%s tmp" % (commit, server, group, name)
             try:
                 result = subprocess.run(shlex.split(cmd), capture_output=True)
-                output = result.stdout.decode('ascii')
+                output = result.stderr.decode('ascii')
                 if "fatal" in output:
                     print("fatal issue in: " + cmd)
+                    print("output: " + output + "\n\n")
             except:
                 print("cmd: " + cmd + " failed")
                 sys.exit(1)
