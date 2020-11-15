@@ -145,19 +145,36 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
         if rawcontent_failed or "https:" not in server:
             if verbose:
                 print("   Fetching ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
-            cmd = """ curl -H "authorization: token 577eccfce44703ef540c0688bc913400806eaa13" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
-            print(cmd)
-            args = shlex.split(cmd)
-            print(args)
+            subprocess.run(["rm", "-rf", "tmp"])    # Remove any existing tmp directory
+            cmd = "git clone -b %s %s:%s/%s tmp" % (commit, server, group, name)
+            print("cmd = " + cmd)
             try:
-                curl = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=devnull)
-                cmd = "cat"
-                ips_list_yml = subprocess.check_output(cmd.split(), stdin=curl.stdout, stderr=devnull)
-                out = curl.communicate()[0]
-                print("ips_list_yml: ")
-                print(ips_list_yml)
-            except subprocess.CalledProcessError:
-                ips_list_yml = None
+                subprocess.run(shlex.split(cmd))
+            except:
+                print("cmd: " + cmd + " failed")
+                sys.exit(1)
+            cmd = "cat try/ips_list.yml"
+            try:
+                subprocess.run(shlex.split(cmd), capture_output=True)
+                result = subprocess.CompletedProcess()
+                print("result = ")
+                print(result)
+            except:
+                print("cmd: " + cmd + " failed")
+                sys.exit(1)
+            # cmd = """ curl -H "authorization: token 577eccfce44703ef540c0688bc913400806eaa13" -H "Accept: application/vnd.github.v3.raw" -H "ref: %s" -O -L "https://api.github.com/repos/%s/%s/contents/ips_list.yml" """ % (commit, group, name)
+            # print(cmd)
+            # args = shlex.split(cmd)
+            # print(args)
+            # try:
+                # curl = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=devnull)
+                # cmd = "cat"
+                # ips_list_yml = subprocess.check_output(cmd.split(), stdin=curl.stdout, stderr=devnull)
+                # out = curl.communicate()[0]
+                # print("ips_list_yml: ")
+                # print(ips_list_yml)
+            # except subprocess.CalledProcessError:
+                # ips_list_yml = None
             print("ips_list_yml: ")
             print(ips_list_yml)
             if ips_list_yml is not None:
