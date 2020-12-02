@@ -155,6 +155,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                     print("output: " + output + "\n\n")
             except:
                 print("cmd: " + cmd + " failed")
+                print(result)
                 sys.exit(1)
             cmd = "cat tmp/ips_list.yml"
             try:

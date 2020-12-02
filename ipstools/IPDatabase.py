@@ -120,6 +120,7 @@ class IPDatabase(object):
         self.default_site_dependent_path = default_site_dependent_path
         ips_list_yml = "%s/%s" % (list_path, ips_list_yml_name)
         rtl_list_yml = "%s/%s" % (list_path, rtl_list_yml_name)
+        assert sys.version_info >= (3, 7)
         try:
             self.ip_list = load_ips_list(ips_list_yml)
         except IOError:
