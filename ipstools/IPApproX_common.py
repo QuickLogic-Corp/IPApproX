@@ -153,6 +153,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 if "fatal" in output:
                     print("fatal issue in: " + cmd)
                     print("output: " + output + "\n\n")
+                    quit()
             except:
                 print("cmd: " + cmd + " failed")
                 print(result)
