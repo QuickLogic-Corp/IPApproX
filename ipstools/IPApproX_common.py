@@ -160,6 +160,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 sys.exit(1)
                 
             cmd = "(cd tmp; git checkout %s)" % (commit)
+            print("cmd>" + cmd)
             try:
                 print("cmd=" + cmd)
                 result = subprocess.run(shlex.split(cmd), capture_output=True)
