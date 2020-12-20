@@ -158,7 +158,9 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 print("cmd: " + cmd + " failed")
                 print(result)
                 sys.exit(1)
-                
+            
+            print("result>" + result)
+            print("output>" + output)            
             cmd = "(cd tmp; git checkout %s)" % (commit)
             print("cmd>" + cmd)
             try:
