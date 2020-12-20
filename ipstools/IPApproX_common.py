@@ -158,10 +158,14 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 print("cmd: " + cmd + " failed")
                 print(result)
                 sys.exit(1)
+                
             cmd = "(cd tmp; git checkout %s)" % (commit)
             try:
+                print("cmd=" + cmd)
                 result = subprocess.run(shlex.split(cmd), capture_output=True)
                 output = result.stderr.decode('ascii')
+                print("result=" + result)
+                print("output=" + output)
                 if "fatal" in output:
                     print("fatal issue in: " + cmd)
                     print("output: " + output + "\n\n")
