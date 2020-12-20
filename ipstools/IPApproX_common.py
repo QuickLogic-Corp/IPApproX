@@ -165,17 +165,17 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 print("cmd=" + cmd)
                 args = shlex.split(cmd)
                 print(args)
-                result = subprocess.run(args, capture_output=True)
-                output = result.stderr.decode('ascii')
+                result2 = subprocess.run(args, capture_output=True)
+                outpu2t = result.stderr.decode('ascii')
                 print("result=" + result)
                 print("output=" + output)
-                if "fatal" in output:
+                if "fatal" in output2:
                     print("fatal issue in: " + cmd)
-                    print("output: " + output + "\n\n")
+                    print("output: " + output2 + "\n\n")
                     sys.exit(1)
             except:
                 print("cmd: " + cmd + " failed")
-                print(result)
+                print(result2)
                 sys.exit(1)
             
             print("result>")
