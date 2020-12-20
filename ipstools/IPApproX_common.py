@@ -146,18 +146,31 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             if verbose:
                 print("   Fetching(2) ips_list.yml from %s:%s/%s @ %s" % (server, group, name, commit))
             subprocess.run(["rm", "-rf", "tmp"])    # Remove any existing tmp directory
-            cmd = "git clone -b %s %s:%s/%s tmp" % (commit, server, group, name)
+            cmd = "git clone %s:%s/%s tmp" % (server, group, name)
             try:
                 result = subprocess.run(shlex.split(cmd), capture_output=True)
                 output = result.stderr.decode('ascii')
                 if "fatal" in output:
                     print("fatal issue in: " + cmd)
                     print("output: " + output + "\n\n")
-                    quit()
+                    sys.exit(1)
             except:
                 print("cmd: " + cmd + " failed")
                 print(result)
                 sys.exit(1)
+            cmd = "cd tmp && git checkout %s" % (commit)
+            try:
+                result = subprocess.run(shlex.split(cmd), capture_output=True)
+                output = result.stderr.decode('ascii')
+                if "fatal" in output:
+                    print("fatal issue in: " + cmd)
+                    print("output: " + output + "\n\n")
+                    sys.exit(1)
+            except:
+                print("cmd: " + cmd + " failed")
+                print(result)
+                sys.exit(1)
+            
             cmd = "cat tmp/ips_list.yml"
             try:
                 result = subprocess.run(shlex.split(cmd), capture_output=True)
