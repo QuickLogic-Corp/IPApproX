@@ -159,13 +159,15 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 print(result)
                 sys.exit(1)
             
-            print("result>" + result)
-            print("output>" + output)            
-            cmd = "(cd tmp; git checkout %s)" % (commit)
-            print("cmd>" + cmd)
+            print("result>")
+            print(result)
+            print("output>")
+            print(output)            
+            cmd2 = "(cd tmp; git checkout %s)" % (commit)
+            print("cmd2>" + cmd)
             try:
-                print("cmd=" + cmd)
-                result = subprocess.run(shlex.split(cmd), capture_output=True)
+                print("cmd2=" + cmd)
+                result = subprocess.run(shlex.split(cmd2), capture_output=True)
                 output = result.stderr.decode('ascii')
                 print("result=" + result)
                 print("output=" + output)
@@ -174,7 +176,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                     print("output: " + output + "\n\n")
                     sys.exit(1)
             except:
-                print("cmd: " + cmd + " failed")
+                print("cmd2: " + cmd2 + " failed")
                 print(result)
                 sys.exit(1)
             
