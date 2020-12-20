@@ -161,7 +161,6 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 
             cwd = os.getcwd()
             os.chdir(cwd + '/tmp')
-            print(os.getcwd)
                         
             cmd = "git checkout %s" % (commit)
             try:
