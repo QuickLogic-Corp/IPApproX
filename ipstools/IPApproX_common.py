@@ -163,7 +163,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
             print(result)
             print("output>")
             print(output)            
-            cmd2 = "(cd tmp; git checkout %s)" % (commit)
+            cmd2 = "(cd tmp ; git checkout %s)" % (commit)
             print("cmd2>" + cmd2)
             try:
                 print("cmd2=" + cmd2)
