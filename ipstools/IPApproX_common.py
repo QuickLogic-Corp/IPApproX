@@ -165,7 +165,7 @@ def get_ips_list_yml(server="git@github.com", group='pulp-platform', name='pulpi
                 print("cmd=" + cmd)
                 args = shlex.split(cmd)
                 print(args)
-                result2 = subprocess.run(args, capture_output=True)
+                result2 = subprocess.run(shlex.split(cmd), capture_output=True)
                 output2 = result2.stderr.decode('ascii')
                 print("result=" + result)
                 print("output=" + output)
